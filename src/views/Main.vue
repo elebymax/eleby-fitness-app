@@ -29,8 +29,8 @@
       app
       clipped-left
     >
-      <v-app-bar-nav-icon @click.stop="isDrawerOpen = !isDrawerOpen"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+<!--      <v-app-bar-nav-icon @click.stop="isDrawerOpen = !isDrawerOpen"></v-app-bar-nav-icon>-->
+      <v-toolbar-title>Eleby Fitness</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
@@ -46,18 +46,18 @@
         grow
       >
         <v-btn>
-          <span>Recents</span>
-          <v-icon>mdi-history</v-icon>
+          <span>Diaries</span>
+          <v-icon>book</v-icon>
         </v-btn>
 
         <v-btn>
-          <span>Favorites</span>
-          <v-icon>mdi-heart</v-icon>
+          <span>Meals</span>
+          <v-icon>local_dining</v-icon>
         </v-btn>
 
         <v-btn>
-          <span>Nearby</span>
-          <v-icon>mdi-map-marker</v-icon>
+          <span>Account</span>
+          <v-icon>person</v-icon>
         </v-btn>
       </v-bottom-navigation>
     </v-footer>
