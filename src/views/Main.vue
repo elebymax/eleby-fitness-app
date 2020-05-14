@@ -29,7 +29,9 @@
       app
       clipped-left
     >
-<!--      <v-app-bar-nav-icon @click.stop="isDrawerOpen = !isDrawerOpen"></v-app-bar-nav-icon>-->
+<!--      <v-app-bar-nav-icon -->
+<!--        @click.stop="isDrawerOpen = !isDrawerOpen"-->
+<!--      ></v-app-bar-nav-icon>-->
       <v-toolbar-title>Eleby Fitness</v-toolbar-title>
     </v-app-bar>
 
@@ -67,17 +69,34 @@
 import {
   Component, Vue, Prop, Watch,
 } from 'vue-property-decorator';
+import { fetchUser } from '@/api';
+import { Action } from 'vuex-class';
 
   @Component({
     components: {},
   })
 
 export default class Main extends Vue {
-  isDrawerOpen = false;
+    @Action('fetchUser', { namespace: 'user' }) fetchUser: any;
 
-  created() {
-    this.$vuetify.theme.dark = true;
-  }
+    @Action('setUser', { namespace: 'user' }) setUser: any;
+
+    isDrawerOpen = false;
+
+    created() {
+      this.$vuetify.theme.dark = true;
+
+      fetchUser().then((res) => {
+        const { data } = res.data;
+
+        this.setUser(data);
+
+        // set token
+        window.localStorage.setItem('token', data.token);
+      }).catch((err: any) => {
+        console.log(err);
+      });
+    }
 }
 </script>
 <style lang="scss">

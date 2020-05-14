@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Prop, Watch,
+  Component, Vue,
 } from 'vue-property-decorator';
 
   @Component({
