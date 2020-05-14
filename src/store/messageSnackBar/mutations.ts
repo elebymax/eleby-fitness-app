@@ -1,5 +1,5 @@
-import {MutationTree} from 'vuex';
-import {SnackBarState, MessageData} from './types';
+import { MutationTree } from 'vuex';
+import { SnackBarState, MessageData } from './types';
 
 export default {
   setColor(state, color: string) {
@@ -19,5 +19,5 @@ export default {
   },
   dismiss(state) {
     state.isShow = false;
-  }
+  },
 } as MutationTree<SnackBarState>;
