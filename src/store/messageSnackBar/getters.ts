@@ -1,6 +1,6 @@
-import {GetterTree} from 'vuex';
-import {SnackBarState} from './types';
-import {RootState} from '../types';
+import { GetterTree } from 'vuex';
+import { SnackBarState } from './types';
+import { RootState } from '../types';
 
 export default {
   color(state): string {

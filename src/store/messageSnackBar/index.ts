@@ -8,17 +8,17 @@ import { RootState } from '../types';
 export const state: SnackBarState = {
   messageData: {
     color: '',
-    text: ''
+    text: '',
   },
-  isShow: false
+  isShow: false,
 };
 
-const namespaced: boolean = true;
+const namespaced = true;
 
 export const messageSnackBar: Module<SnackBarState, RootState> = {
   namespaced,
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
