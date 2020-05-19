@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <div class="fill-height d-flex flex-column">
     <v-navigation-drawer
       v-model="isDrawerOpen"
       app
@@ -63,11 +63,11 @@
         </v-btn>
       </v-bottom-navigation>
     </v-footer>
-  </v-app>
+  </div>
 </template>
 <script lang="ts">
 import {
-  Component, Vue, Prop, Watch,
+  Component, Vue,
 } from 'vue-property-decorator';
 import { fetchUser } from '@/api';
 import { Action } from 'vuex-class';
@@ -84,7 +84,7 @@ export default class Main extends Vue {
     isDrawerOpen = false;
 
     created() {
-      this.$vuetify.theme.dark = true;
+      // this.$vuetify.theme.dark = true;
 
       fetchUser().then((res) => {
         const { data } = res.data;
