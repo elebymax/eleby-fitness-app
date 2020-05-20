@@ -44,3 +44,21 @@ export const createDiary = (body: Diary) => axios.post(`${baseApi}/diaries`, bod
     Authorization: store.getters['user/token'],
   },
 });
+
+export const deleteDiary = (diaryId: string) => axios.delete(`${baseApi}/diaries/${diaryId}`, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
+export const getDairy = (diaryId: string) => axios.get(`${baseApi}/diaries/${diaryId}`, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
+export const modifyDiary = (diaryId: string, body: Diary) => axios.put(`${baseApi}/diaries/${diaryId}`, body, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});

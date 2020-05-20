@@ -5,7 +5,23 @@
         <v-expansion-panel-header
           class="grey darken-3 px-3 icon-size-sm"
         >
-          <div class="body-1">{{ title }}</div>
+          <div class="d-flex align-center mr-2">
+            <div class="body-1 flex-grow-1">{{ title }}</div>
+            <modify-diary-dialog
+              :id="id"
+              :title="title"
+              :content="content"
+              :meals="meals"
+              @modified="handleDiaryModified"
+            ></modify-diary-dialog>
+            <v-btn
+              icon
+              small
+              @click.stop="isShowDeleteDialog = true"
+            >
+              <v-icon small>delete</v-icon>
+            </v-btn>
+          </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content class="grey darken-1">
          <div style="margin: 0 -24px -16px" class="py-2">
@@ -83,6 +99,14 @@
         </v-tooltip>
       </div>
     </div>
+    <confirm-dialog
+      v-model="isShowDeleteDialog"
+      text-title="info"
+      :text-content="`Do you want to delete the diary '${ title }' ?`"
+      text-cancel="No"
+      text-confirm="Yes"
+      :on-confirm="handleOnDeleteClicked"
+    ></confirm-dialog>
   </v-card>
 </template>
 <script lang="ts">
@@ -91,12 +115,29 @@ import {
 } from 'vue-property-decorator';
 import { Meal } from '@/components/meal/types';
 import { sumBy, sum } from 'lodash';
+import { deleteDiary } from '@/api';
+import { Mutation } from 'vuex-class';
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import ModifyDiaryDialog from '@/components/diary/ModifyDiaryDialog.vue';
+import { DiaryWithMeal } from '@/components/diary/types';
 
   @Component({
-    components: {},
+    components: { ModifyDiaryDialog, ConfirmDialog },
   })
 
 export default class DiaryCard extends Vue {
+    @Mutation('setMessageData', { namespace: 'messageSnackBar' }) setSnackBarMessageData: any;
+
+    @Mutation('show', { namespace: 'messageSnackBar' }) showSnackBar: any;
+
+    @Mutation('dismiss', { namespace: 'messageSnackBar' }) dismissSnackBar: any;
+
+    @Prop({
+      type: String,
+      default: '',
+    })
+    id!: string;
+
     @Prop({
       type: String,
       default: '',
@@ -114,6 +155,10 @@ export default class DiaryCard extends Vue {
       default: () => [],
     })
     meals!: Meal[];
+
+    isLoading = false;
+
+    isShowDeleteDialog = false;
 
     get carbSum(): number {
       return sumBy(this.meals, 'carb');
@@ -176,6 +221,35 @@ export default class DiaryCard extends Vue {
       }));
     }
 
+    handleOnDeleteClicked() {
+      this.isLoading = true;
+
+      deleteDiary(this.id).then((res) => {
+        const { message } = res.data;
+        this.$emit('deleted', this.id);
+
+        this.dismissSnackBar();
+        this.setSnackBarMessageData({
+          text: message,
+          color: 'success',
+        });
+        this.showSnackBar();
+      }).catch((err) => {
+        this.dismissSnackBar();
+        this.setSnackBarMessageData({
+          text: err.response ? err.response.data.error.message : err,
+          color: 'error',
+        });
+        this.showSnackBar();
+      }).finally(() => {
+        this.isLoading = false;
+      });
+    }
+
+    handleDiaryModified(diaryWithMeal: DiaryWithMeal) {
+      this.$emit('modified', diaryWithMeal);
+    }
+
     // eslint-disable-next-line class-methods-use-this
     caloriesCalculator(meal: Meal): number {
       return meal && meal.calories
@@ -185,9 +259,9 @@ export default class DiaryCard extends Vue {
 }
 </script>
 <style lang="scss">
-  .icon-size-sm {
+  .v-expansion-panel-header__icon {
     i {
-      font-size: 12px !important;
+      font-size: 16px !important;
     }
   }
 </style>

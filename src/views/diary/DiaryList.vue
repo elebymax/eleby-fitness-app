@@ -5,9 +5,12 @@
       v-for="(diary, index) in diaries"
       :key="index"
       :class="{ 'mt-3': index !== 0 }"
+      :id="diary.id"
       :title="diary.title"
       :content="diary.content"
       :meals="diary.meals"
+      @modified="handleDiaryModified"
+      @deleted="handleDiaryDeleted"
     ></diary-card>
     <create-diary-dialog
       @created="handleLoadDiaries"
@@ -23,6 +26,7 @@ import { Mutation } from 'vuex-class';
 import { DiaryWithMeal } from '@/components/diary/types';
 import DiaryCard from '@/components/diary/DiaryCard.vue';
 import CreateDiaryDialog from '@/components/diary/CreateDiaryDialog.vue';
+import { findIndex } from 'lodash';
 
   @Component({
     components: { CreateDiaryDialog, DiaryCard },
@@ -71,6 +75,20 @@ export default class DiaryList extends Vue {
       }).finally(() => {
         this.isLoading = false;
       });
+    }
+
+    handleDiaryModified(diaryWithMeal: DiaryWithMeal) {
+      const index: number = findIndex(this.diaries, ['id', diaryWithMeal.id]);
+      this.diaries[index].title = diaryWithMeal.title;
+      this.diaries[index].content = diaryWithMeal.content;
+      this.diaries[index].meals = diaryWithMeal.meals;
+      this.diaries[index].createdAt = diaryWithMeal.createdAt;
+      this.diaries[index].updatedAt = diaryWithMeal.updatedAt;
+    }
+
+    handleDiaryDeleted(diaryId: string) {
+      const index: number = findIndex(this.diaries, ['id', diaryId]);
+      this.diaries.splice(index, 1);
     }
 }
 </script>
