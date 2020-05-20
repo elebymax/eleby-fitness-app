@@ -8,6 +8,13 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Main',
     component: () => import('../views/Main.vue'),
+    children: [
+      {
+        path: '',
+        name: 'DiaryList',
+        component: () => import('../views/diary/DiaryList.vue'),
+      },
+    ],
   },
   {
     path: '/login',

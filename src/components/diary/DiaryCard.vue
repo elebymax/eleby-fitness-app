@@ -1,0 +1,176 @@
+<template>
+  <v-card class="elevation-12 grey darken-3" flat>
+    <v-expansion-panels flat>
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          class="grey darken-3 px-3"
+        >
+          {{ title }}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content class="grey darken-1">
+         <div style="margin: 0 -24px -16px" class="py-1">
+           <v-data-table
+             hide-default-footer
+             mobile-breakpoint="0"
+             :headers="headers"
+             :items="meals"
+             :items-per-page="9999"
+             dense
+             style="background-color: rgba(0, 0, 0, 0);"
+           ></v-data-table>
+         </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    <v-divider></v-divider>
+    <div class="d-flex flex-column pa-1">
+      <div class="body-2 pa-1">{{ content }}</div>
+      <div class="d-flex">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-card
+              class="d-flex flex-column flex-grow-1 grey darken-1
+                pa-1 ma-1 white--text text-center"
+              v-on="on"
+            >
+              <v-icon class="red pa-1">whatshot</v-icon>
+              <div>{{ caloriesSum }}</div>
+            </v-card>
+          </template>
+          <span>Calories</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-card
+              class="d-flex flex-column flex-grow-1 grey darken-1
+                pa-1 ma-1 white--text text-center"
+              v-on="on"
+            >
+              <v-icon class="green pa-1">spa</v-icon>
+              <div>{{ carbSum }}</div>
+            </v-card>
+          </template>
+          <span>Carbs(g)</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-card
+              class="d-flex flex-column flex-grow-1 grey darken-1
+                pa-1 ma-1 white--text text-center"
+              v-on="on"
+            >
+              <v-icon class="blue pa-1">whatshot</v-icon>
+              <div>{{ proteinSum }}</div>
+            </v-card>
+          </template>
+          <span>Protein(g)</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-card
+              class="d-flex flex-column flex-grow-1 grey darken-1
+                pa-1 ma-1 white--text text-center"
+              v-on="on"
+            >
+              <v-icon class="yellow pa-1">whatshot</v-icon>
+              <div>{{ fatSum }}</div>
+            </v-card>
+          </template>
+          <span>Fat(g)</span>
+        </v-tooltip>
+      </div>
+    </div>
+  </v-card>
+</template>
+<script lang="ts">
+import {
+  Component, Vue, Prop, Watch,
+} from 'vue-property-decorator';
+import { Meal } from '@/components/meal/types';
+import { sumBy, sum } from 'lodash';
+
+  @Component({
+    components: {},
+  })
+
+export default class DiaryCard extends Vue {
+    @Prop({
+      type: String,
+      default: '',
+    })
+    title!: string;
+
+    @Prop({
+      type: String,
+      default: '',
+    })
+    content!: string;
+
+    @Prop({
+      type: Array,
+      default: () => [],
+    })
+    meals!: Meal[];
+
+    get carbSum(): number {
+      return sumBy(this.meals, 'carb');
+    }
+
+    get proteinSum(): number {
+      return sumBy(this.meals, 'protein');
+    }
+
+    get fatSum(): number {
+      return sumBy(this.meals, 'fat');
+    }
+
+    get caloriesSum(): number {
+      const calories: number[] = this.meals.map((meal: Meal) => (meal && meal.calories
+        ? +meal.calories
+        : (+(meal.carb || 0) * 4) + (+(meal.protein || 0) * 4) + (+(meal.fat || 0) * 9)));
+
+      return sum(calories);
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    get headers() {
+      return [
+        {
+          text: 'Meal',
+          value: 'name',
+          sortable: false,
+          align: 'center',
+        },
+        {
+          text: 'Calories',
+          value: 'calories',
+          sortable: true,
+          align: 'center',
+        },
+        {
+          text: 'Carbs(g)',
+          value: 'carb',
+          sortable: true,
+          align: 'center',
+        },
+        {
+          text: 'Protein(g)',
+          value: 'protein',
+          sortable: true,
+          align: 'center',
+        },
+        {
+          text: 'Fat(g)',
+          value: 'fat',
+          sortable: true,
+          align: 'center',
+        },
+      ];
+    }
+}
+</script>
+<style lang="scss">
+</style>

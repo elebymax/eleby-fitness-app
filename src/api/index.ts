@@ -10,3 +10,10 @@ export const fetchUser = async () => axios.get(`${baseApi}/user`, {
     Authorization: store.getters['user/token'],
   },
 });
+
+export const listDiaries = (query: { last?: number; offset?: number }) => axios.get(`${baseApi}/diaries`, {
+  params: query,
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
