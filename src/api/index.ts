@@ -3,7 +3,7 @@ import { Diary } from '@/components/diary/types';
 import axios from 'axios';
 import store from '@/store';
 
-const baseApi = 'http://localhost:3000/api';
+const baseApi = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : `${window.location.origin}/api`;
 
 export const loginUser = async (body: { email: string; password: string }) => axios.post(`${baseApi}/user/login`, body);
 
