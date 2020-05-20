@@ -44,7 +44,7 @@
           <v-text-field
             v-model="diaryForm.title"
             hide-details
-            label="title"
+            label="Title"
             placeholder="Diary title"
             color="yellow darken-3"
           ></v-text-field>
