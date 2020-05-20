@@ -14,6 +14,9 @@
       @modified="handleMealModified"
       @deleted="handleMealDeleted"
     ></meal-card>
+    <create-meal-dialog
+      @created="handleLoadMeals"
+    ></create-meal-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -25,9 +28,10 @@ import { Mutation } from 'vuex-class';
 import { Meal } from '@/components/meal/types';
 import MealCard from '@/components/meal/MealCard.vue';
 import { findIndex } from 'lodash';
+import CreateMealDialog from '@/components/meal/CreateMealDialog.vue';
 
   @Component({
-    components: { MealCard },
+    components: { CreateMealDialog, MealCard },
   })
 
 export default class MealList extends Vue {

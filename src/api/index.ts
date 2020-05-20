@@ -39,6 +39,12 @@ export const deleteMeal = (mealId: string) => axios.delete(`${baseApi}/meals/${m
   },
 });
 
+export const createMeal = (body: Meal) => axios.post(`${baseApi}/meals`, body, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
 export const createDiary = (body: Diary) => axios.post(`${baseApi}/diaries`, body, {
   headers: {
     Authorization: store.getters['user/token'],
