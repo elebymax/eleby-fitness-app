@@ -132,7 +132,7 @@
 </template>
 <script lang="ts">
 import {
-  Component, Vue,
+  Component, Vue, Watch,
 } from 'vue-property-decorator';
 import moment from 'moment';
 import { createDiary, listMeals } from '@/api';
@@ -161,9 +161,24 @@ export default class CreateDiaryDialog extends Vue {
       mealIds: [],
     };
 
+    @Watch('isShowDialog')
+    private onIsShowDialogChange(val: boolean) {
+      if (val) {
+        this.initDiaryForm();
+      }
+    }
+
     mounted() {
-      this.diaryForm.title = moment().utc(true).format('YYYY-MM-DD');
+      this.initDiaryForm();
+    }
+
+    initDiaryForm() {
       this.handleListMeals();
+      this.diaryForm.title = '';
+      this.diaryForm.content = '';
+      this.diaryForm.meals = [];
+      this.diaryForm.mealIds = [];
+      this.diaryForm.title = moment().utc(true).format('YYYY-MM-DD');
     }
 
     handleListMeals() {
