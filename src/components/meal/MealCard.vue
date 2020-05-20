@@ -134,7 +134,7 @@
               </v-text-field>
             </v-card>
           </template>
-          <span>Carbs(g)</span>
+          <span>Carbs (g)</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -158,7 +158,7 @@
               </v-text-field>
             </v-card>
           </template>
-          <span>Protein(g)</span>
+          <span>Protein (g)</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -182,7 +182,7 @@
               </v-text-field>
             </v-card>
           </template>
-          <span>Fat(g)</span>
+          <span>Fat (g)</span>
         </v-tooltip>
       </div>
     </div>

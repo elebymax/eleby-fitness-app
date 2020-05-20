@@ -67,7 +67,7 @@
               <div>{{ carbSum }}</div>
             </v-card>
           </template>
-          <span>Carbs(g)</span>
+          <span>Carbs (g)</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -81,7 +81,7 @@
               <div>{{ proteinSum }}</div>
             </v-card>
           </template>
-          <span>Protein(g)</span>
+          <span>Protein (g)</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -95,7 +95,7 @@
               <div>{{ fatSum }}</div>
             </v-card>
           </template>
-          <span>Fat(g)</span>
+          <span>Fat (g)</span>
         </v-tooltip>
       </div>
     </div>
@@ -194,19 +194,19 @@ export default class DiaryCard extends Vue {
           align: 'center',
         },
         {
-          text: 'Carbs(g)',
+          text: 'Carbs (g)',
           value: 'carb',
           sortable: true,
           align: 'center',
         },
         {
-          text: 'Protein(g)',
+          text: 'Protein (g)',
           value: 'protein',
           sortable: true,
           align: 'center',
         },
         {
-          text: 'Fat(g)',
+          text: 'Fat (g)',
           value: 'fat',
           sortable: true,
           align: 'center',
