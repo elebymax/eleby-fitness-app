@@ -1,4 +1,5 @@
 import { Meal } from '@/components/meal/types';
+import { Diary } from '@/components/diary/types';
 import axios from 'axios';
 import store from '../store';
 
@@ -19,7 +20,7 @@ export const listDiaries = (query: { last?: number; offset?: number }) => axios.
   },
 });
 
-export const listMeals = (query: { last?: number; offset?: number; createdAt?: string }) => axios.get(`${baseApi}/meals`, {
+export const listMeals = (query: { [key: string]: string | number }) => axios.get(`${baseApi}/meals`, {
   params: query,
   headers: {
     Authorization: store.getters['user/token'],
@@ -33,6 +34,12 @@ export const modifyMeal = (mealId: string, body: Meal) => axios.put(`${baseApi}/
 });
 
 export const deleteMeal = (mealId: string) => axios.delete(`${baseApi}/meals/${mealId}`, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
+export const createDiary = (body: Diary) => axios.post(`${baseApi}/diaries`, body, {
   headers: {
     Authorization: store.getters['user/token'],
   },

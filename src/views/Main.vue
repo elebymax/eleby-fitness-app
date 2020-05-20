@@ -44,6 +44,7 @@
     <v-footer class="pa-0">
       <v-bottom-navigation
         :value="1"
+        app
         dark
         grow
       >

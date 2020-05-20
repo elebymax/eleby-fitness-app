@@ -4,10 +4,14 @@
     <diary-card
       v-for="(diary, index) in diaries"
       :key="index"
+      :class="{ 'mt-3': index !== 0 }"
       :title="diary.title"
       :content="diary.content"
       :meals="diary.meals"
     ></diary-card>
+    <create-diary-dialog
+      @created="handleLoadDiaries"
+    ></create-diary-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -18,9 +22,10 @@ import { listDiaries } from '@/api';
 import { Mutation } from 'vuex-class';
 import { DiaryWithMeal } from '@/components/diary/types';
 import DiaryCard from '@/components/diary/DiaryCard.vue';
+import CreateDiaryDialog from '@/components/diary/CreateDiaryDialog.vue';
 
   @Component({
-    components: { DiaryCard },
+    components: { CreateDiaryDialog, DiaryCard },
   })
 
 export default class DiaryList extends Vue {
@@ -45,9 +50,10 @@ export default class DiaryList extends Vue {
     handleLoadDiaries() {
       this.isLoading = true;
 
-      const query: { last: number; offset: number } = {
+      const query: { [key: string]: number | string } = {
         last: 20,
         offset: this.currentPage >= 1 ? (this.currentPage - 1) * 20 : 0,
+        createdAt: 'desc:',
       };
 
       listDiaries(query).then((res) => {
