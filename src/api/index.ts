@@ -68,3 +68,9 @@ export const modifyDiary = (diaryId: string, body: Diary) => axios.put(`${baseAp
     Authorization: store.getters['user/token'],
   },
 });
+
+export const changePassword = (body: { password: string }) => axios.patch(`${baseApi}/user/password`, body, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
