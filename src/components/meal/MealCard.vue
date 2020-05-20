@@ -97,7 +97,7 @@
               v-on="on"
             >
               <v-icon class="pa-1 fa fa-fire-alt" color="red" small></v-icon>
-              <div v-show="!isEditing">{{ formatedCalories }}</div>
+              <div v-show="!isEditing">{{ Math.round(formatedCalories * 10) / 10 }}</div>
               <v-text-field
                 v-show="isEditing"
                 :disabled="isLoading"

@@ -92,7 +92,7 @@
                         <div
                           class="d-flex justify-center align-center"
                         >
-                          {{ caloriesCalculator(data.item) }}
+                          {{ Math.round(caloriesCalculator(data.item) * 10) / 10 }}
                         </div>
                       </div>
                       <div class="d-flex justify-center align-center ml-3">

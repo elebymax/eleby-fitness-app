@@ -217,7 +217,7 @@ export default class DiaryCard extends Vue {
     get rows(): Meal[] {
       return this.meals.map((meal: Meal) => ({
         ...meal,
-        calories: meal && meal.calories ? meal.calories : this.caloriesCalculator(meal),
+        calories: Math.round(this.caloriesCalculator(meal) * 10) / 10,
       }));
     }
 
