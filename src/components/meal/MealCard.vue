@@ -1,5 +1,9 @@
 <template>
-  <v-card class="elevation-12 grey darken-3" flat>
+  <v-card
+    class="elevation-12 grey darken-3"
+    flat
+    :loading="isLoading"
+  >
     <v-toolbar
       class="grey darken-3"
       flat
@@ -8,6 +12,7 @@
         <div v-show="!isEditing">{{ name }}</div>
         <v-text-field
           v-show="isEditing"
+          :disabled="isLoading"
           v-model="mealForm.name"
           hide-details
           type="text"
@@ -39,6 +44,7 @@
           <template v-slot:activator="{ on }">
             <v-btn
               v-show="isEditing"
+              :disabled="isLoading"
               icon
               v-on="on"
               small
@@ -65,6 +71,7 @@
               <div v-show="!isEditing">{{ formatedCalories }}</div>
               <v-text-field
                 v-show="isEditing"
+                :disabled="isLoading"
                 v-model="mealForm.calories"
                 hide-details
                 type="number"
@@ -88,6 +95,7 @@
               <div v-show="!isEditing">{{ carb }}</div>
               <v-text-field
                 v-show="isEditing"
+                :disabled="isLoading"
                 v-model="mealForm.carb"
                 hide-details
                 type="number"
@@ -111,6 +119,7 @@
               <div v-show="!isEditing">{{ protein }}</div>
               <v-text-field
                 v-show="isEditing"
+                :disabled="isLoading"
                 v-model="mealForm.protein"
                 hide-details
                 type="number"
@@ -134,6 +143,7 @@
               <div v-show="!isEditing">{{ fat }}</div>
               <v-text-field
                 v-show="isEditing"
+                :disabled="isLoading"
                 v-model="mealForm.fat"
                 hide-details
                 type="number"
@@ -154,21 +164,25 @@ import {
   Component, Vue, Prop,
 } from 'vue-property-decorator';
 import { Meal } from '@/components/meal/types';
+import { modifyMeal } from '@/api';
+import { Mutation } from 'vuex-class';
 
   @Component({
     components: {},
   })
 
 export default class MealCard extends Vue {
-    isEditing = false;
+    @Mutation('setMessageData', { namespace: 'messageSnackBar' }) setSnackBarMessageData: any;
 
-    mealForm: Meal = {
-      name: '',
-      calories: 0,
-      carb: 0,
-      protein: 0,
-      fat: 0,
-    };
+    @Mutation('show', { namespace: 'messageSnackBar' }) showSnackBar: any;
+
+    @Mutation('dismiss', { namespace: 'messageSnackBar' }) dismissSnackBar: any;
+
+    @Prop({
+      type: String,
+      default: '',
+    })
+    id!: string;
 
     @Prop({
       type: String,
@@ -200,10 +214,30 @@ export default class MealCard extends Vue {
     })
     fat!: number;
 
+    isEditing = false;
+
+    isLoading = false;
+
+    mealForm: Meal = {
+      name: '',
+      calories: 0,
+      carb: 0,
+      protein: 0,
+      fat: 0,
+    };
+
     get formatedCalories(): number {
       return this.calories
         ? +this.calories
         : (+(this.carb || 0) * 4) + (+(this.protein || 0) * 4) + (+(this.fat || 0) * 9);
+    }
+
+    initMealForm() {
+      this.mealForm.name = '';
+      this.mealForm.calories = 0;
+      this.mealForm.carb = 0;
+      this.mealForm.protein = 0;
+      this.mealForm.fat = 0;
     }
 
     handleOnEditClicked() {
@@ -216,7 +250,40 @@ export default class MealCard extends Vue {
     }
 
     handleOnCompleteClicked() {
-      this.isEditing = false;
+      this.isLoading = true;
+
+      const body: Meal = {
+        name: this.mealForm.name || '',
+        calories: this.mealForm.calories || 0,
+        carb: this.mealForm.carb || 0,
+        protein: this.mealForm.protein || 0,
+        fat: this.mealForm.fat || 0,
+      };
+
+      console.log(body);
+
+      modifyMeal(this.id, body).then((res) => {
+        const { data, message } = res.data;
+        this.initMealForm();
+        this.isEditing = false;
+        this.$emit('modified', data);
+
+        this.dismissSnackBar();
+        this.setSnackBarMessageData({
+          text: message,
+          color: 'success',
+        });
+        this.showSnackBar();
+      }).catch((err) => {
+        this.dismissSnackBar();
+        this.setSnackBarMessageData({
+          text: err.response ? err.response.data.error.message : err,
+          color: 'error',
+        });
+        this.showSnackBar();
+      }).finally(() => {
+        this.isLoading = false;
+      });
     }
 }
 </script>

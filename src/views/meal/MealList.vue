@@ -4,11 +4,13 @@
     <meal-card
       v-for="(meal, index) in meals"
       :key="index"
+      :id="meal.id"
       :name="meal.name"
       :calories="meal.calories"
       :carb="meal.carb"
       :protein="meal.protein"
       :fat="meal.fat"
+      @modified="handleMealModified"
     ></meal-card>
   </div>
 </template>
@@ -20,6 +22,7 @@ import { listMeals } from '@/api';
 import { Mutation } from 'vuex-class';
 import { Meal } from '@/components/meal/types';
 import MealCard from '@/components/meal/MealCard.vue';
+import { findIndex } from 'lodash';
 
   @Component({
     components: { MealCard },
@@ -57,16 +60,24 @@ export default class MealList extends Vue {
         this.meals = data;
         this.totalPage = Math.ceil(paginate.total / 20);
       }).catch((err) => {
-        const { error } = err.response.data;
         this.dismissSnackBar();
         this.setSnackBarMessageData({
-          text: error.message,
+          text: err.response ? err.response.data.error.message : err,
           color: 'error',
         });
         this.showSnackBar();
       }).finally(() => {
         this.isLoading = false;
       });
+    }
+
+    handleMealModified(meal: Meal) {
+      const index: number = findIndex(this.meals, ['id', meal.id]);
+      this.meals[index].name = meal.name;
+      this.meals[index].calories = meal.calories;
+      this.meals[index].carb = meal.carb;
+      this.meals[index].protein = meal.protein;
+      this.meals[index].fat = meal.fat;
     }
 }
 </script>

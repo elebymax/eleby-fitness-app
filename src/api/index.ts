@@ -1,3 +1,4 @@
+import { Meal } from '@/components/meal/types';
 import axios from 'axios';
 import store from '../store';
 
@@ -20,6 +21,12 @@ export const listDiaries = (query: { last?: number; offset?: number }) => axios.
 
 export const listMeals = (query: { last?: number; offset?: number }) => axios.get(`${baseApi}/meals`, {
   params: query,
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
+export const modifyMeal = (mealId: string, body: Meal) => axios.put(`${baseApi}/meals/${mealId}`, body, {
   headers: {
     Authorization: store.getters['user/token'],
   },
