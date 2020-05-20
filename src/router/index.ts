@@ -14,6 +14,11 @@ const routes: Array<RouteConfig> = [
         name: 'DiaryList',
         component: () => import('../views/diary/DiaryList.vue'),
       },
+      {
+        path: 'meals',
+        name: 'MealList',
+        component: () => import('../views/meal/MealList.vue'),
+      },
     ],
   },
   {

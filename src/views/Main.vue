@@ -47,12 +47,16 @@
         dark
         grow
       >
-        <v-btn>
+        <v-btn
+          to="/"
+        >
           <span>Diaries</span>
           <v-icon>book</v-icon>
         </v-btn>
 
-        <v-btn>
+        <v-btn
+          to="/meals"
+        >
           <span>Meals</span>
           <v-icon>local_dining</v-icon>
         </v-btn>
@@ -89,17 +93,13 @@ export default class Main extends Vue {
       const token: string | null = window.localStorage.getItem('token');
       if (!token) {
         this.$router.replace('/login');
+        return;
       }
 
-      this.setToken(token);
-
-      fetchUser().then((res) => {
+      fetchUser(token).then((res) => {
         const { data } = res.data;
-
         this.setUser(data);
-
-        // set token
-        window.localStorage.setItem('token', data.token);
+        this.setToken(token);
       }).catch((err: any) => {
         console.log(err);
       });
