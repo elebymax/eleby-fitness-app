@@ -4,11 +4,12 @@
       <v-expansion-panel>
         <v-expansion-panel-header
           class="grey darken-3 px-3"
+          style="font-size: 12px;"
         >
-          {{ title }}
+          <div class="body-1">{{ title }}</div>
         </v-expansion-panel-header>
         <v-expansion-panel-content class="grey darken-1">
-         <div style="margin: 0 -24px -16px" class="py-1">
+         <div style="margin: 0 -24px -16px" class="py-2">
            <v-data-table
              hide-default-footer
              mobile-breakpoint="0"
@@ -33,7 +34,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="red pa-1">whatshot</v-icon>
+              <v-icon class="red pa-1 fa fa-fire-alt" small></v-icon>
               <div>{{ caloriesSum }}</div>
             </v-card>
           </template>
@@ -47,7 +48,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="green pa-1">spa</v-icon>
+              <v-icon class="green pa-1 fa fa-bread-slice" small></v-icon>
               <div>{{ carbSum }}</div>
             </v-card>
           </template>
@@ -61,7 +62,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="blue pa-1">whatshot</v-icon>
+              <v-icon class="blue pa-1 fa fa-fish" small></v-icon>
               <div>{{ proteinSum }}</div>
             </v-card>
           </template>
@@ -75,7 +76,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="yellow pa-1">whatshot</v-icon>
+              <v-icon class="yellow pa-1 fa fa-oil-can" small></v-icon>
               <div>{{ fatSum }}</div>
             </v-card>
           </template>
@@ -87,7 +88,7 @@
 </template>
 <script lang="ts">
 import {
-  Component, Vue, Prop, Watch,
+  Component, Vue, Prop,
 } from 'vue-property-decorator';
 import { Meal } from '@/components/meal/types';
 import { sumBy, sum } from 'lodash';
