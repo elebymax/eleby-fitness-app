@@ -3,8 +3,7 @@
     <v-expansion-panels flat>
       <v-expansion-panel>
         <v-expansion-panel-header
-          class="grey darken-3 px-3"
-          style="font-size: 12px;"
+          class="grey darken-3 px-3 icon-size-sm"
         >
           <div class="body-1">{{ title }}</div>
         </v-expansion-panel-header>
@@ -186,4 +185,9 @@ export default class DiaryCard extends Vue {
 }
 </script>
 <style lang="scss">
+  .icon-size-sm {
+    i {
+      font-size: 12px !important;
+    }
+  }
 </style>
