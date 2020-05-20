@@ -14,7 +14,7 @@
              hide-default-footer
              mobile-breakpoint="0"
              :headers="headers"
-             :items="meals"
+             :items="rows"
              :items-per-page="9999"
              dense
              style="background-color: rgba(0, 0, 0, 0);"
@@ -129,9 +129,7 @@ export default class DiaryCard extends Vue {
     }
 
     get caloriesSum(): number {
-      const calories: number[] = this.meals.map((meal: Meal) => (meal && meal.calories
-        ? +meal.calories
-        : (+(meal.carb || 0) * 4) + (+(meal.protein || 0) * 4) + (+(meal.fat || 0) * 9)));
+      const calories: number[] = this.meals.map((meal: Meal) => this.caloriesCalculator(meal));
 
       return sum(calories);
     }
@@ -170,6 +168,20 @@ export default class DiaryCard extends Vue {
           align: 'center',
         },
       ];
+    }
+
+    get rows(): Meal[] {
+      return this.meals.map((meal: Meal) => ({
+        ...meal,
+        calories: meal && meal.calories ? meal.calories : this.caloriesCalculator(meal),
+      }));
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    caloriesCalculator(meal: Meal): number {
+      return meal && meal.calories
+        ? +meal.calories
+        : (+(meal.carb || 0) * 4) + (+(meal.protein || 0) * 4) + (+(meal.fat || 0) * 9);
     }
 }
 </script>
