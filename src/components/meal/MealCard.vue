@@ -62,6 +62,21 @@
               icon
               v-on="on"
               small
+              @click="isEditing = false"
+            >
+              <v-icon small>close</v-icon>
+            </v-btn>
+          </template>
+          <span>Delete</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isEditing"
+              :disabled="isLoading"
+              icon
+              v-on="on"
+              small
               @click="handleOnCompleteClicked"
             >
               <v-icon small>check</v-icon>
@@ -81,7 +96,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="red pa-1 fa fa-fire-alt" small></v-icon>
+              <v-icon class="pa-1 fa fa-fire-alt" color="red" small></v-icon>
               <div v-show="!isEditing">{{ formatedCalories }}</div>
               <v-text-field
                 v-show="isEditing"
@@ -105,7 +120,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="green pa-1 fa fa-bread-slice" small></v-icon>
+              <v-icon class="pa-1 fa fa-bread-slice" color="green" small></v-icon>
               <div v-show="!isEditing">{{ carb }}</div>
               <v-text-field
                 v-show="isEditing"
@@ -129,7 +144,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="blue pa-1 fa fa-fish" small></v-icon>
+              <v-icon class="pa-1 fa fa-fish" color="blue" small></v-icon>
               <div v-show="!isEditing">{{ protein }}</div>
               <v-text-field
                 v-show="isEditing"
@@ -153,7 +168,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="yellow pa-1 fa fa-oil-can" small></v-icon>
+              <v-icon class="pa-1 fa fa-oil-can" color="yellow" small></v-icon>
               <div v-show="!isEditing">{{ fat }}</div>
               <v-text-field
                 v-show="isEditing"

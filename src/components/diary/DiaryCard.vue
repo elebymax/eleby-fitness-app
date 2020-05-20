@@ -33,7 +33,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="red pa-1 fa fa-fire-alt" small></v-icon>
+              <v-icon class="pa-1 fa fa-fire-alt" color="red" small></v-icon>
               <div>{{ caloriesSum }}</div>
             </v-card>
           </template>
@@ -47,7 +47,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="green pa-1 fa fa-bread-slice" small></v-icon>
+              <v-icon class="pa-1 fa fa-bread-slice" color="green" small></v-icon>
               <div>{{ carbSum }}</div>
             </v-card>
           </template>
@@ -61,7 +61,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="blue pa-1 fa fa-fish" small></v-icon>
+              <v-icon class="pa-1 fa fa-fish" color="blue" small></v-icon>
               <div>{{ proteinSum }}</div>
             </v-card>
           </template>
@@ -75,7 +75,7 @@
                 pa-1 ma-1 white--text text-center"
               v-on="on"
             >
-              <v-icon class="yellow pa-1 fa fa-oil-can" small></v-icon>
+              <v-icon class="pa-1 fa fa-oil-can" color="yellow" small></v-icon>
               <div>{{ fatSum }}</div>
             </v-card>
           </template>
