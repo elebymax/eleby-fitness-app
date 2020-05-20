@@ -29,9 +29,12 @@
       app
       clipped-left
     >
-      <!--      <v-app-bar-nav-icon -->
-      <!--        @click.stop="isDrawerOpen = !isDrawerOpen"-->
-      <!--      ></v-app-bar-nav-icon>-->
+      <v-icon
+        class="mr-3"
+        color="yellow darken-3"
+      >
+        fitness_center
+      </v-icon>
       <v-toolbar-title>Eleby Fitness</v-toolbar-title>
     </v-app-bar>
 
@@ -43,13 +46,12 @@
 
     <v-footer class="pa-0">
       <v-bottom-navigation
-        :value="1"
         app
         dark
         grow
       >
         <v-btn
-          to="/"
+          to="/diaries"
         >
           <span>Diaries</span>
           <v-icon>book</v-icon>
@@ -62,7 +64,9 @@
           <v-icon>local_dining</v-icon>
         </v-btn>
 
-        <v-btn>
+        <v-btn
+          to="/account"
+        >
           <span>Account</span>
           <v-icon>person</v-icon>
         </v-btn>
@@ -74,7 +78,6 @@
 import {
   Component, Vue,
 } from 'vue-property-decorator';
-import { fetchUser } from '@/api';
 import { Mutation } from 'vuex-class';
 
   @Component({
@@ -89,22 +92,6 @@ export default class Main extends Vue {
     @Mutation('setToken', { namespace: 'user' }) setToken: any;
 
     isDrawerOpen = false;
-
-    created() {
-      const token: string | null = window.localStorage.getItem('token');
-      if (!token) {
-        this.$router.replace('/login');
-        return;
-      }
-
-      fetchUser(token).then((res) => {
-        const { data } = res.data;
-        this.setUser(data);
-        this.setToken(token);
-      }).catch((err: any) => {
-        console.log(err);
-      });
-    }
 }
 </script>
 <style lang="scss">

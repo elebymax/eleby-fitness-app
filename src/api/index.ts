@@ -1,7 +1,7 @@
 import { Meal } from '@/components/meal/types';
 import { Diary } from '@/components/diary/types';
 import axios from 'axios';
-import store from '../store';
+import store from '@/store';
 
 const baseApi = 'http://localhost:3000/api';
 

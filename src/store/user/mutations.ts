@@ -14,8 +14,6 @@ export default {
     state.user = undefined;
   },
   setToken(state, token) {
-    if (state.user) {
-      state.user.token = token;
-    }
+    state.token = token;
   },
 } as MutationTree<UserState>;

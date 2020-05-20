@@ -81,6 +81,8 @@ import MessageSnackBar from '../components/MessageSnackBar.vue';
   })
 
 export default class Login extends Vue {
+    @Mutation('setToken', { namespace: 'user' }) setToken: any;
+
     @Mutation('setUser', { namespace: 'user' }) setUser: any;
 
     @Mutation('setMessageData', { namespace: 'messageSnackBar' }) setSnackBarMessageData: any;
@@ -115,6 +117,7 @@ export default class Login extends Vue {
         this.setUser(data);
 
         // set token
+        this.setToken(data.token);
         window.localStorage.setItem('token', data.token);
 
         // redirect
@@ -123,7 +126,7 @@ export default class Login extends Vue {
           this.$router.replace(`${redirectPath}`);
           return;
         }
-        this.$router.replace('/');
+        this.$router.replace('/diaries');
       }).catch((err: any) => {
         const { error } = err.response.data;
         this.dismissSnackBar();

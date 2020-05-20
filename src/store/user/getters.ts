@@ -4,7 +4,8 @@ import { RootState } from '../types';
 
 export default {
   token(state): string {
-    return state.user ? state.user.token || '' : '';
+    const { token } = state;
+    return token || '';
   },
   user(state): any {
     const { user } = state;

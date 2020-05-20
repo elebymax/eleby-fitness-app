@@ -6,6 +6,7 @@ import { UserState } from './types';
 import { RootState } from '../types';
 
 export const state: UserState = {
+  token: '',
   user: undefined,
   error: false,
 };

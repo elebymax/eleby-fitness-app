@@ -22,17 +22,20 @@ import {
   Component, Vue,
 } from 'vue-property-decorator';
 import { listDiaries } from '@/api';
-import { Mutation } from 'vuex-class';
+import { Getter, Mutation } from 'vuex-class';
 import { DiaryWithMeal } from '@/components/diary/types';
 import DiaryCard from '@/components/diary/DiaryCard.vue';
 import CreateDiaryDialog from '@/components/diary/CreateDiaryDialog.vue';
 import { findIndex } from 'lodash';
+import { User } from '@/store/user/types';
 
   @Component({
     components: { CreateDiaryDialog, DiaryCard },
   })
 
 export default class DiaryList extends Vue {
+    @Getter('token', { namespace: 'user' }) token!: string;
+
     @Mutation('setMessageData', { namespace: 'messageSnackBar' }) setSnackBarMessageData: any;
 
     @Mutation('show', { namespace: 'messageSnackBar' }) showSnackBar: any;
@@ -53,6 +56,7 @@ export default class DiaryList extends Vue {
 
     handleLoadDiaries() {
       this.isLoading = true;
+      console.log(`load ${this.token}`);
 
       const query: { [key: string]: number | string } = {
         last: 20,
