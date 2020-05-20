@@ -1,5 +1,6 @@
 <template>
   <div class="d-flex flex-column">
+    <v-subheader>Diaries</v-subheader>
     <diary-card
       v-for="(diary, index) in diaries"
       :key="index"
