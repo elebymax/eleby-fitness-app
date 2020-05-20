@@ -4,6 +4,7 @@
     <meal-card
       v-for="(meal, index) in meals"
       :key="index"
+      :class="{ 'mt-3': index !== 0 }"
       :id="meal.id"
       :name="meal.name"
       :calories="meal.calories"
@@ -11,6 +12,7 @@
       :protein="meal.protein"
       :fat="meal.fat"
       @modified="handleMealModified"
+      @deleted="handleMealDeleted"
     ></meal-card>
   </div>
 </template>
@@ -50,9 +52,10 @@ export default class MealList extends Vue {
     handleLoadMeals() {
       this.isLoading = true;
 
-      const query: { last: number; offset: number } = {
+      const query: { last: number; offset: number; createdAt: string } = {
         last: 20,
         offset: this.currentPage >= 1 ? (this.currentPage - 1) * 20 : 0,
+        createdAt: 'desc:',
       };
 
       listMeals(query).then((res) => {
@@ -78,6 +81,11 @@ export default class MealList extends Vue {
       this.meals[index].carb = meal.carb;
       this.meals[index].protein = meal.protein;
       this.meals[index].fat = meal.fat;
+    }
+
+    handleMealDeleted(mealId: string) {
+      const index: number = findIndex(this.meals, ['id', mealId]);
+      this.meals.splice(index, 1);
     }
 }
 </script>

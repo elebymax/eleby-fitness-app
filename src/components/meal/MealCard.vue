@@ -43,6 +43,20 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-show="!isEditing"
+              icon
+              v-on="on"
+              small
+              @click="isShowDeleteDialog = true"
+            >
+              <v-icon small>delete</v-icon>
+            </v-btn>
+          </template>
+          <span>Delete</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
               v-show="isEditing"
               :disabled="isLoading"
               icon
@@ -157,6 +171,14 @@
         </v-tooltip>
       </div>
     </div>
+    <confirm-dialog
+      v-model="isShowDeleteDialog"
+      text-title="info"
+      :text-content="`Do you want to delete the meal '${ name }' ?`"
+      text-cancel="No"
+      text-confirm="Yes"
+      :on-confirm="handleOnDeleteClicked"
+    ></confirm-dialog>
   </v-card>
 </template>
 <script lang="ts">
@@ -164,11 +186,12 @@ import {
   Component, Vue, Prop,
 } from 'vue-property-decorator';
 import { Meal } from '@/components/meal/types';
-import { modifyMeal } from '@/api';
+import { deleteMeal, modifyMeal } from '@/api';
 import { Mutation } from 'vuex-class';
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
 
   @Component({
-    components: {},
+    components: { ConfirmDialog },
   })
 
 export default class MealCard extends Vue {
@@ -218,6 +241,8 @@ export default class MealCard extends Vue {
 
     isLoading = false;
 
+    isShowDeleteDialog = false;
+
     mealForm: Meal = {
       name: '',
       calories: 0,
@@ -260,13 +285,38 @@ export default class MealCard extends Vue {
         fat: this.mealForm.fat || 0,
       };
 
-      console.log(body);
-
       modifyMeal(this.id, body).then((res) => {
         const { data, message } = res.data;
         this.initMealForm();
         this.isEditing = false;
         this.$emit('modified', data);
+
+        this.dismissSnackBar();
+        this.setSnackBarMessageData({
+          text: message,
+          color: 'success',
+        });
+        this.showSnackBar();
+      }).catch((err) => {
+        this.dismissSnackBar();
+        this.setSnackBarMessageData({
+          text: err.response ? err.response.data.error.message : err,
+          color: 'error',
+        });
+        this.showSnackBar();
+      }).finally(() => {
+        this.isLoading = false;
+      });
+    }
+
+    handleOnDeleteClicked() {
+      this.isLoading = true;
+
+      deleteMeal(this.id).then((res) => {
+        const { message } = res.data;
+        this.initMealForm();
+        this.isEditing = false;
+        this.$emit('deleted', this.id);
 
         this.dismissSnackBar();
         this.setSnackBarMessageData({

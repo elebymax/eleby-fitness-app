@@ -19,7 +19,7 @@ export const listDiaries = (query: { last?: number; offset?: number }) => axios.
   },
 });
 
-export const listMeals = (query: { last?: number; offset?: number }) => axios.get(`${baseApi}/meals`, {
+export const listMeals = (query: { last?: number; offset?: number; createdAt?: string }) => axios.get(`${baseApi}/meals`, {
   params: query,
   headers: {
     Authorization: store.getters['user/token'],
@@ -27,6 +27,12 @@ export const listMeals = (query: { last?: number; offset?: number }) => axios.ge
 });
 
 export const modifyMeal = (mealId: string, body: Meal) => axios.put(`${baseApi}/meals/${mealId}`, body, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
+export const deleteMeal = (mealId: string) => axios.delete(`${baseApi}/meals/${mealId}`, {
   headers: {
     Authorization: store.getters['user/token'],
   },
