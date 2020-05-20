@@ -105,6 +105,7 @@
                 hide-details
                 type="number"
                 dense
+                outlined
                 color="red"
               >
               </v-text-field>
@@ -130,6 +131,7 @@
                 type="number"
                 dense
                 color="green"
+                outlined
               >
               </v-text-field>
             </v-card>
@@ -153,6 +155,7 @@
                 hide-details
                 type="number"
                 dense
+                outlined
                 color="blue"
               >
               </v-text-field>
@@ -177,6 +180,7 @@
                 hide-details
                 type="number"
                 dense
+                outlined
                 color="yellow"
               >
               </v-text-field>
