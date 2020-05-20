@@ -50,14 +50,12 @@ router.beforeEach((to, from, next) => {
   }
 
   if (store.getters['user/token']) {
-    console.log('store.getters[\'user/token\']');
     next();
     return;
   }
 
   const token: string | null = window.localStorage.getItem('token');
   if (!token) {
-    console.log('!token');
     next({
       path: '/login',
       query: { redirect: to.fullPath },

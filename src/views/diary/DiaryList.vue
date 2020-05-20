@@ -56,7 +56,6 @@ export default class DiaryList extends Vue {
 
     handleLoadDiaries() {
       this.isLoading = true;
-      console.log(`load ${this.token}`);
 
       const query: { [key: string]: number | string } = {
         last: 20,
