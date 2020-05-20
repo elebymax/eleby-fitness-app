@@ -25,22 +25,18 @@
             class="grey darken-3"
             flat
           >
-            <v-toolbar-title>Login</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>help</v-icon>
-                </v-btn>
-              </template>
-              <span>Login</span>
-            </v-tooltip>
+            <v-toolbar-title>Sign up</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form>
+              <v-text-field
+                v-model="form.name"
+                label="Name"
+                prepend-icon="person"
+                type="text"
+                hide-details
+                color="yellow darken-3"
+              ></v-text-field>
               <v-text-field
                 v-model="form.email"
                 label="Email"
@@ -51,12 +47,13 @@
               ></v-text-field>
               <v-text-field
                 v-model="form.password"
-                class="mt-3"
-                label="Password"
-                prepend-icon="lock"
-                type="password"
                 hide-details
+                prepend-icon="lock"
                 color="yellow darken-3"
+                label="New password"
+                :type="form.isShowPassword ? 'text' : 'password'"
+                :append-icon="form.isShowPassword ? 'visibility' : 'visibility_off'"
+                @click:append="form.isShowPassword = !form.isShowPassword"
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -64,9 +61,9 @@
             <v-btn
               class="grey darken-2"
               depressed
-              @click="$router.push('/sign-up')"
+              @click="$router.push('/login')"
             >
-              Sign up
+              Login
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
@@ -91,7 +88,7 @@ import {
   Component, Vue,
 } from 'vue-property-decorator';
 import { Mutation } from 'vuex-class';
-import { loginUser } from '@/api';
+import { signUpUser } from '@/api';
 import MessageSnackBar from '../components/MessageSnackBar.vue';
 
   @Component({
@@ -111,9 +108,11 @@ export default class Login extends Vue {
 
     @Mutation('dismiss', { namespace: 'messageSnackBar' }) dismissSnackBar: any;
 
-    form: { email: string; password: string } = {
+    form ={
+      name: '',
       email: '',
       password: '',
+      isShowPassword: false,
     };
 
     isSubmitLoading = false;
@@ -121,32 +120,19 @@ export default class Login extends Vue {
     handleOnSubmitClicked() {
       this.isSubmitLoading = true;
 
-      loginUser({
+      signUpUser({
+        name: this.form.name,
         email: this.form.email,
         password: this.form.password,
       }).then((res) => {
-        const { data, message } = res.data;
-
+        const { message } = res.data;
         this.dismissSnackBar();
         this.setSnackBarMessageData({
           text: message,
           color: 'success',
         });
         this.showSnackBar();
-
-        this.setUser(data);
-
-        // set token
-        this.setToken(data.token);
-        window.localStorage.setItem('token', data.token);
-
-        // redirect
-        const redirectPath: string | (string | null)[] = this.$route.query.redirect;
-        if (this.$route.query.redirect) {
-          this.$router.replace(`${redirectPath}`);
-          return;
-        }
-        this.$router.replace('/diaries');
+        this.$router.push('/login');
       }).catch((err: any) => {
         const { error } = err.response.data;
         this.dismissSnackBar();

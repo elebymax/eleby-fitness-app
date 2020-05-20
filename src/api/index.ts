@@ -7,6 +7,12 @@ const baseApi = 'http://localhost:3000/api';
 
 export const loginUser = async (body: { email: string; password: string }) => axios.post(`${baseApi}/user/login`, body);
 
+export const signUpUser = (body: { name: string; email: string; password: string }) => axios.post(`${baseApi}/user`, body, {
+  headers: {
+    Authorization: store.getters['user/token'],
+  },
+});
+
 export const fetchUser = async (token: string) => axios.get(`${baseApi}/user`, {
   headers: {
     Authorization: token,
