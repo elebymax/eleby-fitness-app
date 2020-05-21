@@ -45,7 +45,7 @@ module.exports = {
         },
       ],
       // eslint-disable-next-line @typescript-eslint/camelcase
-      start_url: '/#/',
+      start_url: '.',
       display: 'standalone',
       // eslint-disable-next-line @typescript-eslint/camelcase
       background_color: '#000',
