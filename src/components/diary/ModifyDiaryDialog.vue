@@ -88,7 +88,7 @@
                         <div
                           class="d-flex justify-center align-center"
                         >
-                          {{ Math.round(caloriesCalculator(data.item) * 10) / 10 }}
+                          {{ Math.round(caloriesCalculator(data.item) * 100) / 100 }}
                         </div>
                       </div>
                       <div class="d-flex justify-center align-center ml-3">

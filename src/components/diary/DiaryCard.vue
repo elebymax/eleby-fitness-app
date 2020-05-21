@@ -50,7 +50,7 @@
               v-on="on"
             >
               <v-icon class="pa-1 fa fa-fire-alt" color="red" small></v-icon>
-              <div>{{ caloriesSum }}</div>
+              <div>{{ Math.round(caloriesSum * 100) / 100 }}</div>
             </v-card>
           </template>
           <span>Calories</span>
@@ -64,7 +64,7 @@
               v-on="on"
             >
               <v-icon class="pa-1 fa fa-bread-slice" color="green" small></v-icon>
-              <div>{{ carbSum }}</div>
+              <div>{{ Math.round(carbSum * 100) / 100 }}</div>
             </v-card>
           </template>
           <span>Carbs (g)</span>
@@ -78,7 +78,7 @@
               v-on="on"
             >
               <v-icon class="pa-1 fa fa-fish" color="blue" small></v-icon>
-              <div>{{ proteinSum }}</div>
+              <div>{{ Math.round(proteinSum * 100) / 100 }}</div>
             </v-card>
           </template>
           <span>Protein (g)</span>
@@ -92,7 +92,7 @@
               v-on="on"
             >
               <v-icon class="pa-1 fa fa-oil-can" color="yellow" small></v-icon>
-              <div>{{ fatSum }}</div>
+              <div>{{ Math.round(fatSum * 100) / 100 }}</div>
             </v-card>
           </template>
           <span>Fat (g)</span>
@@ -217,7 +217,7 @@ export default class DiaryCard extends Vue {
     get rows(): Meal[] {
       return this.meals.map((meal: Meal) => ({
         ...meal,
-        calories: Math.round(this.caloriesCalculator(meal) * 10) / 10,
+        calories: Math.round(this.caloriesCalculator(meal) * 100) / 100,
       }));
     }
 
