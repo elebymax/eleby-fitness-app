@@ -1,39 +1,5 @@
 # eleby-fitness-app
+A web application that can record the nutrition facts of daily meal. You can create your own dishes or food items and put them in your meal diary.
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Production page
+[https://fitness.elebymax.net](https://fitness.elebymax.net)
